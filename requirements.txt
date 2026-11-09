@@ -1,0 +1,11 @@
+openai>=1.40
+ddgs>=9.0
+requests>=2.31
+beautifulsoup4>=4.12
+edge-tts>=7.0
+sounddevice>=0.4.6
+numpy>=1.26
+playwright>=1.45
+google-api-python-client>=2.100
+google-auth-oauthlib>=1.2
+google-auth-httplib2>=0.2

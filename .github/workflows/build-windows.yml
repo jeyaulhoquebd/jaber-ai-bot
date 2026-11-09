@@ -1,0 +1,32 @@
+name: Build Jaber.exe
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller
+      - name: Build exe
+        run: >
+          pyinstaller --noconfirm --onefile --windowed --name Jaber
+          --collect-all playwright --collect-all ddgs --collect-all primp
+          --collect-data edge_tts --collect-submodules googleapiclient
+          --collect-all sounddevice
+          main.py
+      - name: Smoke test (imports)
+        run: python -c "import jaber.agent, jaber.tools, jaber.voice, jaber.browser, jaber.gdrive, jaber.gui; print('ok')"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Jaber-windows
+          path: dist/Jaber.exe
